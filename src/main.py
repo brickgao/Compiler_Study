@@ -130,7 +130,10 @@ def run():
         else:
             ans = dfs(s, 0)
             if gl.flag:
-                print 'atom is:', gl.ans
+                print 'atom is:',
+                for e in gl.ans:
+                    print e,
+                print
             else:
                 print 'There is something wrong at', gl.pos, ', please check it'
     
