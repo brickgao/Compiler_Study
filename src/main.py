@@ -54,7 +54,7 @@ def p_expression_all(p):
         elif p[2] == 'cdr':           p[0] = p[3][1:]
         elif p[2] == 'cond':
             ret = []
-            for _ in len(p[3]):
+            for _ in range(len(p[3])):
                 if 't' in p[3][_][0]:
                     ret = p[3][_][1]
                     break
