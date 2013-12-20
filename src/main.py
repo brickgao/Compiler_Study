@@ -37,16 +37,16 @@ def p_expression_all(p):
     '''
     expression : '`' LIST
                | '`' '(' fator ')'
+               | '(' ATOM expression ')'
                | '(' QUOTE expression ')'
                | '(' CAR expression ')'
                | '(' CDR expression ')'
                | '(' COND expressionComplex ')'
                | '(' CONS expression expression ')'
+               | '(' EQ expression expression ')'
     '''
-    if len(p) == 2:
-        p[0] = p[1]
-    elif len(p) == 3:
-        if p[1] == '`':               p[0] = p[2]
+    if len(p) == 3:
+        p[0] = p[2]
     elif len(p) == 5:
         if p[1] == '`':               p[0] = p[3]
         elif p[2] == 'quote':         p[0] = p[3]
@@ -55,25 +55,20 @@ def p_expression_all(p):
         elif p[2] == 'cond':
             ret = []
             for _ in len(p[3]):
-                if p[3][_][0] == 't':
+                if 't' in p[3][_][0]:
                     ret = p[3][_][1]
                     break
             p[0] = ret
-        else:                         p[0] = p[1] + p[2]
+        else:
+            if len(p[3]) == 1:            p[0] = 't'
+            else:                         p[0] = 'NIL'
     elif len(p) == 6:
-        p[0] = p[3] + p[4]
-
-def p_expressionCompare_all(p):
-    '''
-    expressionCompare       : '(' ATOM expression ')'
-                            | '(' EQ expression expression ')'
-    '''
-    if len(p) == 4:
-        if len(p[3]) == 1:            p[0] = 't'
-        else:                         p[0] = 'NIL'
-    elif len(p) == 5:
-        if set(p[3]) == set(p[4]):    p[0] = 't'
-        else:                         p[0] = 'NIL'
+        if p[2] == 'cons':
+            p[0] = p[3] + p[4]
+        else:
+             if set(p[3]) == set(p[4]):    p[0] = ['t']
+             else:                         p[0] = []
+             
                                       
 def p_factor_expr(p):
     '''
@@ -85,8 +80,8 @@ def p_factor_expr(p):
 
 def p_expressionComplex_all(p):
     '''
-    expressionComplex       : '(' expressionCompare expression ')'
-                            | '(' expressionCompare expression ')' expressionComplex
+    expressionComplex       : '(' expression expression ')'
+                            | '(' expression expression ')' expressionComplex
     '''
     if len(p) == 5:
         _ = []
@@ -112,8 +107,5 @@ while 1:
         break
     if not _:
         continue
-    lexer.input(_)
-    for i in lexer:
-        print i
     result = yacc.parse(_)
     print result
