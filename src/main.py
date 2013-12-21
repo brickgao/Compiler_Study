@@ -14,7 +14,7 @@ reserved = {
 
 tokens = ['LIST'] + list(reserved.values())
 
-literals = ['(', ')', '`']
+literals = ['(', ')', '\'']
 
 def t_LIST(t):
     r'\w+'
@@ -35,8 +35,8 @@ def t_error(t):
 
 def p_expression_all(p):
     '''
-    expression : '`' LIST
-               | '`' '(' fator ')'
+    expression : '\\\'' LIST
+               | '\\\'' '(' fator ')'
                | '(' ATOM expression ')'
                | '(' QUOTE expression ')'
                | '(' CAR expression ')'
@@ -48,7 +48,7 @@ def p_expression_all(p):
     if len(p) == 3:
         p[0] = p[2]
     elif len(p) == 5:
-        if p[1] == '`':               p[0] = p[3]
+        if p[1] == '\'':               p[0] = p[3]
         elif p[2] == 'quote':         p[0] = p[3]
         elif p[2] == 'car':           p[0] = p[3][0:1]
         elif p[2] == 'cdr':           p[0] = p[3][1:]
