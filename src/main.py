@@ -64,7 +64,7 @@ def p_expression_all(p):
                 _ = []
                 _.append('t')
                 p[0] = _
-            else:                         p[0] = 'NIL'
+            else:                         p[0] = []
     elif len(p) == 6:
         if p[2] == 'cons':
             p[0] = p[3] + p[4]
