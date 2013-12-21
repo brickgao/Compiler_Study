@@ -38,7 +38,7 @@ def p_expression_all(p):
     expression : '\\\'' LIST
                | '\\\'' '(' fator ')'
                | '(' ATOM expression ')'
-               | '(' QUOTE expression ')'
+               | '(' QUOTE  LIST ')'
                | '(' CAR expression ')'
                | '(' CDR expression ')'
                | '(' COND expressionComplex ')'
