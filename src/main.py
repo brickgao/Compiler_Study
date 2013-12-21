@@ -60,13 +60,19 @@ def p_expression_all(p):
                     break
             p[0] = ret
         else:
-            if len(p[3]) == 1:            p[0] = 't'
+            if len(p[3]) == 1:
+                _ = []
+                _.append('t')
+                p[0] = _
             else:                         p[0] = 'NIL'
     elif len(p) == 6:
         if p[2] == 'cons':
             p[0] = p[3] + p[4]
         else:
-             if set(p[3]) == set(p[4]):    p[0] = ['t']
+             if set(p[3]) == set(p[4]):
+                 _ = []
+                 _.append('t')
+                 p[0] = _
              else:                         p[0] = []
              
                                       
