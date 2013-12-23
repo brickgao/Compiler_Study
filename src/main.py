@@ -95,7 +95,9 @@ def p_expressionComplex_all(p):
         p[0] = _
     else:
         p[0] = p[5]
-        p[5].append((p[2], p[3]))
+        _ = []
+        _.append((p[2], p[3]))
+        p[0] = _ + p[5]
 
 def p_error(p):  
     if p:  
